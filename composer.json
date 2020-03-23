@@ -1,0 +1,42 @@
+{
+    "name": "magmell-agentur/contao-instagram-news",
+    "description": "",
+    "type": "contao-bundle",
+    "authors": [
+        {
+            "name": "Markus Milkereit",
+            "email": "markus.milkereit@magmell.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Marko Todić",
+            "email": "drexplosiveweb@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "contao/core-bundle": "^4.9",
+        "contao/news-bundle": "^4.9",
+        "codefog/contao-instagram": "^2.1"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.3"
+    },
+    "extra": {
+        "contao-manager-plugin": "Magmell\\Contao\\InstagramNews\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Magmell\\Contao\\InstagramNews\\": "src"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    }
+}
