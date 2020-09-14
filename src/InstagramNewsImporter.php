@@ -121,6 +121,7 @@ class InstagramNewsImporter
                 $objInstagramNewsModel->instagramPermalink = $instagramPost['permalink'];
                 $objInstagramNewsModel->instagramTstamp = $instagramPost['timestamp'];
                 if ($instagramPost['contao']['uuid']) {
+                    $objInstagramNewsModel->addImage = true;
                     $objInstagramNewsModel->singleSRC = StringUtil::uuidToBin($instagramPost['contao']['uuid']);
                 }
                 $objInstagramNewsModel->save();
