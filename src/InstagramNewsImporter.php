@@ -107,11 +107,22 @@ class InstagramNewsImporter
                 $instagramPost['caption'] = $this->removeEmoticons($instagramPost['caption']);
                 $instagramPost['timestamp'] = strtotime($instagramPost['timestamp']);
 
+                $headline = strlen($instagramPost['caption']) < 25 ? $instagramPost['caption'] : substr($instagramPost['caption'], 0, 24) . ' ...';
+                $headline = utf8_encode($headline);
+
+                $teaser = $instagramPost['caption'];
+                // Inject paragraphs (split on double line breaks)
+                $teaser = preg_split('/\n{2}/', $teaser);
+                $teaser = array_map(function ($paragraph) { return '<p>' . $paragraph . '</p>'; }, $teaser);
+                $teaser = implode('', $teaser);
+                $teaser = nl2br($teaser);
+                $teaser = utf8_encode($teaser);
+
                 // Import
                 $objInstagramNewsModel = new InstagramNewsModel();
                 $objInstagramNewsModel->pid = $objNewsArchive->id;
-                $objInstagramNewsModel->headline = strlen($instagramPost['caption']) < 25 ? $instagramPost['caption'] : substr($instagramPost['caption'], 0, 24) . ' ...';
-                $objInstagramNewsModel->teaser = $instagramPost['caption'];
+                $objInstagramNewsModel->headline = $headline;
+                $objInstagramNewsModel->teaser = $teaser;
                 $objInstagramNewsModel->date = $instagramPost['timestamp'];
                 $objInstagramNewsModel->time = $instagramPost['timestamp'];
                 $objInstagramNewsModel->instagramId = $instagramPost['id'];

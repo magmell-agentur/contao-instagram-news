@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_CRON']['hourly'][] = ['Magmell\Contao\InstagramNews\InstagramNewsImporter', 'run'];
+//$GLOBALS['TL_CRON']['hourly'][] = ['Magmell\Contao\InstagramNews\InstagramNewsImporter', 'run'];
 
 if ($_COOKIE['XDEBUG_SESSION'] === 'PHPSTORM_MARKO')
 {
