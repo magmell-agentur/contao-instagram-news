@@ -125,6 +125,9 @@ class InstagramNewsImporter
                 $objInstagramNewsModel->teaser = $teaser;
                 $objInstagramNewsModel->date = $instagramPost['timestamp'];
                 $objInstagramNewsModel->time = $instagramPost['timestamp'];
+                $objInstagramNewsModel->source = 'external';
+                $objInstagramNewsModel->url = $instagramPost['permalink'];
+                $objInstagramNewsModel->target = true; // target="_blank"
                 $objInstagramNewsModel->instagramId = $instagramPost['id'];
                 $objInstagramNewsModel->instagramCaption = $instagramPost['caption'];
                 $objInstagramNewsModel->instagramMediaType = $instagramPost['media_type'];
