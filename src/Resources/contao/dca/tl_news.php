@@ -5,7 +5,7 @@ $GLOBALS['TL_DCA']['tl_news']['fields']['instagramId'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['instagramCaption'] = [
-    "sql" => "text NOT NULL default ''"
+    "sql" => "text NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['instagramMediaType'] = [
@@ -13,11 +13,11 @@ $GLOBALS['TL_DCA']['tl_news']['fields']['instagramMediaType'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['instagramMediaUrl'] = [
-    "sql" => "text NOT NULL default ''"
+    "sql" => "text NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['instagramPermalink'] = [
-    "sql" => "text NOT NULL default ''"
+    "sql" => "text NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['instagramTstamp'] = [
