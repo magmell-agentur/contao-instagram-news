@@ -32,6 +32,11 @@ class InstagramNewsImporter
     {
         $objInstagramModule = ModuleModel::findByType('cfg_instagram');
 
+        if (!$objInstagramModule)
+        {
+            return;
+        }
+
         while($objInstagramModule->next())
         {
             if (!$objInstagramModule->cfg_instagramAccessToken
