@@ -109,13 +109,13 @@ class InstagramNewsImporter
                     continue; // Instagram post already imported
                 }
 
-                $instagramPost['caption'] = $this->removeEmoticons($instagramPost['caption']);
                 $instagramPost['timestamp'] = strtotime($instagramPost['timestamp']);
 
                 $headline = strlen($instagramPost['caption']) < 25 ? $instagramPost['caption'] : substr($instagramPost['caption'], 0, 24) . ' ...';
                 $headline = utf8_encode($headline);
 
                 $teaser = $instagramPost['caption'];
+                $teaser = $this->injectLinks($teaser);
                 // Inject paragraphs (split on double line breaks)
                 $teaser = preg_split('/\n{2}/', $teaser);
                 $teaser = array_map(function ($paragraph) { return '<p>' . $paragraph . '</p>'; }, $teaser);
@@ -126,6 +126,7 @@ class InstagramNewsImporter
                 // Import
                 $objInstagramNewsModel = new InstagramNewsModel();
                 $objInstagramNewsModel->pid = $objNewsArchive->id;
+                $objInstagramNewsModel->published = true;
                 $objInstagramNewsModel->headline = $headline;
                 $objInstagramNewsModel->teaser = $teaser;
                 $objInstagramNewsModel->date = $instagramPost['timestamp'];
@@ -148,28 +149,45 @@ class InstagramNewsImporter
         }
     }
 
-    protected function removeEmoticons($string)
+    /**
+     * @param $txt
+     * @return string
+     */
+    protected function injectLinks($txt)
     {
-        // Match Emoticons
-        $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
-        $clean_text = preg_replace($regexEmoticons, '', $string);
+        // find links and surround with proper anchor tag
+        preg_match_all('#[-a-zA-Z0-9@:%_+.~\#?&/=]{2,256}\.[a-z]{2,4}\b(/[-a-zA-Z0-9@:%_+.~\#?&/=]*)?#si', $txt, $links);
+        if (is_array($links) && is_array($links[0]) && !empty($links[0]))
+        {
+            foreach ($links[0] as $link)
+            {
+                $linkNew = $link;
+                if (strpos($linkNew, 'http') !== 0)
+                {
+                    $linkNew = 'https://' . $linkNew;
+                }
 
-        // Match Miscellaneous Symbols and Pictographs
-        $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
-        $clean_text = preg_replace($regexSymbols, '', $clean_text);
+                $linkNew = sprintf("<a href=\"%s\" target=\"_blank\">%s</a>", $linkNew, $link);
+                $txt = str_replace($link, $linkNew, $txt);
+            }
+        }
 
-        // Match Transport And Map Symbols
-        $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
-        $clean_text = preg_replace($regexTransport, '', $clean_text);
+        // find hashtags and surround with proper anchor tag
+        preg_match_all('/#\w+/u', $txt, $hashtags);
+        if (is_array($hashtags) && is_array($hashtags[0]) && !empty($hashtags[0]))
+        {
+            $hashtags = array_unique($hashtags[0]);
 
-        // Match Miscellaneous Symbols
-        $regexMisc = '/[\x{2600}-\x{26FF}]/u';
-        $clean_text = preg_replace($regexMisc, '', $clean_text);
+            foreach ($hashtags as $i => $hashtag)
+            {
+                $link = sprintf("https://www.instagram.com/explore/tags/%s", substr($hashtag, 1));
+                $hashtagNew = sprintf("<a href=\"%s\" target=\"_blank\" class=\"hashtag-link\">%s</a>", $link, $hashtag);
+                $txt = preg_replace_callback("/$hashtag(\W|$)/", function($matches) use ($hashtagNew) {
+                    return $hashtagNew . $matches[1];
+                }, $txt);
+            }
+        }
 
-        // Match Dingbats
-        $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
-        $clean_text = preg_replace($regexDingbats, '', $clean_text);
-
-        return $clean_text;
+        return $txt;
     }
 }
