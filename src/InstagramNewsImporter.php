@@ -115,6 +115,20 @@ class InstagramNewsImporter
                 $headline = utf8_encode($headline);
 
                 $teaser = $instagramPost['caption'];
+
+                // Strip off english version from text (we always have new line with '_' or '-' in between the german and english lines)
+                $arrMessage = explode(PHP_EOL, $teaser);
+                $blnDelimiterFound = false;
+                $arrMessage = array_filter($arrMessage, function ($strLine) use (&$blnDelimiterFound) {
+                    if (in_array($strLine, ['_', '-']))
+                    {
+                        $blnDelimiterFound = true;
+                    }
+
+                    return !$blnDelimiterFound || 0 === strpos($strLine, '#');
+                });
+                $teaser = implode(PHP_EOL, $arrMessage);
+
                 $teaser = $this->injectLinks($teaser);
                 // Inject paragraphs (split on double line breaks)
                 $teaser = preg_split('/\n{2}/', $teaser);
