@@ -149,7 +149,7 @@ class InstagramNewsImporter
                 $objInstagramNewsModel->url = $instagramPost['permalink'];
                 $objInstagramNewsModel->target = true; // target="_blank"
                 $objInstagramNewsModel->instagramId = $instagramPost['id'];
-                $objInstagramNewsModel->instagramCaption = $instagramPost['caption'];
+                $objInstagramNewsModel->instagramCaption = utf8_encode($instagramPost['caption']);
                 $objInstagramNewsModel->instagramMediaType = $instagramPost['media_type'];
                 $objInstagramNewsModel->instagramMediaUrl = $instagramPost['media_url'];
                 $objInstagramNewsModel->instagramPermalink = $instagramPost['permalink'];
