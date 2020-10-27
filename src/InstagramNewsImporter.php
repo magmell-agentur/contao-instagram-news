@@ -47,7 +47,7 @@ class InstagramNewsImporter
                 continue;
             }
 
-            $this->import($instagramPosts, unserialize($objInstagramModule->instagramNewsArchives));
+            $this->import($instagramPosts, unserialize($objInstagramModule->instagramNewsArchives), (bool)$objInstagramModule->instagramUnpublished);
         }
     }
 
@@ -85,8 +85,9 @@ class InstagramNewsImporter
      *
      * @param array $instagramPosts Array of posts to import
      * @param array $newsArchives Array of news archives ids to import posts to
+     * @param bool $unpublished
      */
-    protected function import($instagramPosts, $newsArchives)
+    protected function import($instagramPosts, $newsArchives, $unpublished)
     {
         if (!is_array($newsArchives) || !is_array($instagramPosts))
         {
@@ -140,7 +141,7 @@ class InstagramNewsImporter
                 // Import
                 $objInstagramNewsModel = new InstagramNewsModel();
                 $objInstagramNewsModel->pid = $objNewsArchive->id;
-                $objInstagramNewsModel->published = true;
+                $objInstagramNewsModel->published = !$unpublished;
                 $objInstagramNewsModel->headline = $headline;
                 $objInstagramNewsModel->teaser = $teaser;
                 $objInstagramNewsModel->date = $instagramPost['timestamp'];

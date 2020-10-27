@@ -8,6 +8,12 @@
             <trans-unit id="tl_module.instagramNewsArchives.1">
                 <source>To which news archives you want Instagram posts imported.</source>
             </trans-unit>
+            <trans-unit id="tl_module.instagramUnpublished.0">
+                <source>Instagram unpublished</source>
+            </trans-unit>
+            <trans-unit id="tl_module.instagramUnpublished.1">
+                <source>Instagram news are not published after being imported.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
