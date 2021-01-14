@@ -59,6 +59,14 @@ class InstagramNewsImporter
      */
     protected function getFeedItems($objModule): array
     {
+        // Refresh token
+        if (($token = $this->client->refreshAccessToken($objModule->cfg_instagramAccessToken)) !== null)
+        {
+            $this->cfg_instagramAccessToken = $token;
+            $objModule->cfg_instagramAccessToken = $token;
+            $objModule->save();
+        }
+
         $response = $this->client->getMediaData($objModule->cfg_instagramAccessToken, (int) $objModule->id, false);
 
         if (null === $response) {
