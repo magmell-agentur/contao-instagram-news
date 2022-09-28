@@ -12,11 +12,11 @@
             "name": "Marko Todić",
             "email": "drexplosiveweb@gmail.com",
             "role": "Developer"
-        }
+        }      
     ],
     "require": {
-        "contao/core-bundle": "^4.9",
-        "contao/news-bundle": "^4.9",
+        "contao/core-bundle": "4.4.* || 4.9.*",
+        "contao/news-bundle": "4.4.* || 4.9.*",
         "codefog/contao-instagram": "^2.2"
     },
     "require-dev": {
