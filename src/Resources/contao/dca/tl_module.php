@@ -7,7 +7,6 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['cfg_instagram'] = str_replace(
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['instagramNewsArchives'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_module']['instagramNewsArchives'],
     'exclude' => true,
     'inputType' => 'checkbox',
     'options_callback' => array('tl_module_news', 'getNewsArchives'),
@@ -16,7 +15,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['instagramNewsArchives'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['instagramUnpublished'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_module']['instagramUnpublished'],
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => array('tl_class'=>'w50'),
